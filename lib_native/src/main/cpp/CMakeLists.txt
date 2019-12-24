@@ -30,7 +30,7 @@ elseif(ANDROID_ABI MATCHES "^arm64-v8a")
 endif()
 
 # Specifies a path to native header files.
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common/)
 
 
 # Creates and names a library, sets it as either STATIC
@@ -45,7 +45,7 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-            ${CPP_SOURCES} )
+             ${CPP_SOURCES} )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

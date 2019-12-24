@@ -1,7 +1,9 @@
 package com.junmeng.libnative
 
-
-class JniNative private constructor(){
+/**
+ * 演示普通方法
+ */
+class JniNative private constructor() {
 
 
     companion object {
@@ -10,6 +12,7 @@ class JniNative private constructor(){
         init {
             System.loadLibrary("native-lib")
         }
+
         private var instance: JniNative? = null
 
         fun getInstance(): JniNative? {
@@ -19,9 +22,6 @@ class JniNative private constructor(){
             return instance
         }
     }
-
-
-
 
 
     /**
