@@ -5,10 +5,16 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-# 打印部分预定义变量的值，可在目录app/.cxx/cmake/debug/arm64-v8a/build_output.txt下查看
-message(“PROJECT_SOURCE_DIR：${PROJECT_SOURCE_DIR}”)
-message(“CMakeLists.txt文件所在目录：CMAKE_CURRENT_SOURCE_DIR：${CMAKE_CURRENT_SOURCE_DIR}”)
-message(“CMAKE_SOURCE_DIR：${CMAKE_SOURCE_DIR}”)
+# 以下演示打印部分预定义变量的值，可在目录app/.cxx/cmake/debug/arm64-v8a/build_output.txt下查看
+message("PROJECT_SOURCE_DIR:${PROJECT_SOURCE_DIR}")
+message("当前正在处理的列表文件即CMakeLists.txt:CMAKE_CURRENT_LIST_FILE:${CMAKE_CURRENT_LIST_FILE}")
+message("当前正在处理的列表文件的目录:CMAKE_CURRENT_LIST_DIR:${CMAKE_CURRENT_LIST_DIR}")
+message("CMakeLists.txt文件所在目录:CMAKE_CURRENT_SOURCE_DIR:${CMAKE_CURRENT_SOURCE_DIR}")
+message("CMAKE_SOURCE_DIR:${CMAKE_SOURCE_DIR}")
+
+#以下演示设置变量并打印
+set(myvar hello)
+message(${myvar}) #打印出hello
 
 
 
@@ -31,6 +37,11 @@ endif()
 
 # Specifies a path to native header files.
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common/)
+
+#添加预编译动态库或静态库，注意动静态库都必须放置在${ANDROID_ABI}文件夹下
+#add_library(libcamera  SHARED IMPORTED )
+#set_target_properties(libcamera PROPERTIES IMPORTED_LOCATION
+#${JNILIBS_SO_PATH}/${ANDROID_ABI}/libcamera.so )
 
 
 # Creates and names a library, sets it as either STATIC
@@ -59,6 +70,8 @@ find_library( # Sets the name of the path variable.
               # Specifies the name of the NDK library that
               # you want CMake to locate.
               log )
+#以下会打印出liblog.so的路径，例如/home/hwj/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/liblog.so
+message(“log path：${log-lib}”)
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
@@ -69,6 +82,7 @@ target_link_libraries( # Specifies the target library.
 
                        # Links the target library to the log library
                        # included in the NDK.
+                       # 如果有依赖关系，被依赖的要放置在后面
                        ${log-lib} )
 
 

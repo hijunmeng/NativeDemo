@@ -39,6 +39,16 @@ android {
         }
     }
 
+//    packagingOptions {
+//        //假如出现多个so的错误，添加pickFirst即可
+//        pickFirst 'lib/armeabi-v7a/libinstant.so'
+//
+//        //假如so冲突，可在此进行排除
+//        exclude 'lib/armeabi-v7a/libavcodec-57.so'
+//
+//    }
+
+
 }
 
 dependencies {

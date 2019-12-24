@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
         // Example of a call to a native method
 //        sample_text.text = JniNative.getInstance()?.stringFromJNI()
         sample_text.text = JniStaticNative.stringFromJNI()
+
+        var i=JniStaticNative.dynamicRegister(2)
+        sample_text.text =""+i
     }
 
 
