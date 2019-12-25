@@ -27,7 +27,13 @@ get_filename_component(CPP_SRC_DIR  ${CMAKE_SOURCE_DIR}  ABSOLUTE)
 message(“CPP_SRC_DIR：${CPP_SRC_DIR}”)
 
 # 定义源文件目录下的源文件，虽然这样可以避免写一大堆文件列表，但由于ide支持不够好，因此有新文件增加时需要手动删除生成的.cxx文件夹后再编译
-file(GLOB_RECURSE CPP_SOURCES *.c *.cpp)
+file(GLOB_RECURSE CPP_SOURCES *.c *.cc *.cpp)
+message(list_all_source_filepath_and_filename:)
+foreach(FILE_PATH ${CPP_SOURCES})
+    message(${FILE_PATH})
+    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" FILE_NAME ${FILE_PATH})
+    message(${FILE_NAME})#不包含后缀名
+endforeach(FILE_PATH)
 
 if (ANDROID_ABI MATCHES "^armeabi-v7a$")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfloat-abi=softfp -mfpu=neon")
@@ -56,7 +62,19 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             ${CPP_SOURCES} )
+             # ${CPP_SOURCES} #这里为了演示多个动态库，故暂时不用
+             native-lib.cpp
+             common/ALog.cpp)
+
+add_library( # Sets the name of the library.
+            dynamic-lib
+
+            # Sets the library as a shared library.
+            SHARED
+
+            # Provides a relative path to your source file(s).
+            dynamic-lib.cpp
+            common/ALog.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -71,7 +89,7 @@ find_library( # Sets the name of the path variable.
               # you want CMake to locate.
               log )
 #以下会打印出liblog.so的路径，例如/home/hwj/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/liblog.so
-message(“log path：${log-lib}”)
+message(find_log_path：${log-lib})
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
@@ -84,6 +102,14 @@ target_link_libraries( # Specifies the target library.
                        # included in the NDK.
                        # 如果有依赖关系，被依赖的要放置在后面
                        ${log-lib} )
+
+target_link_libraries(  # Specifies the target library.
+                        dynamic-lib
+
+                        # Links the target library to the log library
+                        # included in the NDK.
+                        # 如果有依赖关系，被依赖的要放置在后面
+                        ${log-lib} )
 
 
 #升级到gradle4之后会报错误：More than one file was found with OS independent path 'lib/armeabi/libstreamhandler.so'

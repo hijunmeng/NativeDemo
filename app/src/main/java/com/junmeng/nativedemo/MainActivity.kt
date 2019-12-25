@@ -2,11 +2,14 @@ package com.junmeng.nativedemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import com.junmeng.libnative.JniDynamic
 import com.junmeng.libnative.JniNative
 import com.junmeng.libnative.JniStaticNative
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    val TAG=MainActivity::class.java.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,10 +17,22 @@ class MainActivity : AppCompatActivity() {
 
         // Example of a call to a native method
 //        sample_text.text = JniNative.getInstance()?.stringFromJNI()
-        sample_text.text = JniStaticNative.stringFromJNI()
+        //sample_text.text = JniStaticNative.stringFromJNI()
 
-        var i=JniStaticNative.dynamicRegister(2)
-        sample_text.text =""+i
+        var s1=System.currentTimeMillis()
+        JniStaticNative.stringFromJNI()
+        var e1=System.currentTimeMillis()
+        Log.i(TAG,"耗时s="+(e1-s1))
+        var s2=System.currentTimeMillis()
+        JniStaticNative.stringFromJNI()
+        var e2=System.currentTimeMillis()
+        Log.i(TAG,"耗时s="+(e2-s2))
+
+        var s=System.currentTimeMillis()
+        var i=JniDynamic.dynamicRegister(2)
+        var e=System.currentTimeMillis()
+        Log.i(TAG,"耗时d="+(e-s))
+        sample_text.text =""
     }
 
 

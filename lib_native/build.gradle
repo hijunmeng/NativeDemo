@@ -15,7 +15,8 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++11"
+                arguments '-DANDROID_STL=c++_shared' //默认是c++_static,这里改为shared,因为有多个动态库,详看https://developer.android.google.cn/ndk/guides/cmake?hl=zh_cn
+                cppFlags "-std=c++11 -fvisibility=hidden"// -fvisibility=hidden将生成速度更快且更小的代码，并避免与加载到应用中的其他库发生潜在冲突，详看https://developer.android.google.cn/training/articles/perf-jni?hl=zh_cn#%E5%8E%9F%E7%94%9F%E5%BA%93
             }
         }
 //        ndk {
