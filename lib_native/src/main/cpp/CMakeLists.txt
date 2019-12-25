@@ -2,8 +2,11 @@
 # documentation: https://d.android.com/studio/projects/add-native-code.html
 
 # Sets the minimum version of CMake required to build the native library.
-
 cmake_minimum_required(VERSION 3.4.1)
+
+##################################################################
+# 特别注意此文件对格式有一定要求，如果格式出现错误将导致一些奇怪的问题，难以排查
+##################################################################
 
 # 以下演示打印部分预定义变量的值，可在目录app/.cxx/cmake/debug/arm64-v8a/build_output.txt下查看
 message("PROJECT_SOURCE_DIR:${PROJECT_SOURCE_DIR}")
