@@ -71,18 +71,6 @@ add_library( # Sets the name of the library.
              common/ALog.cpp )#注意最后的括号不能换行，否则会导致cpp文件识别不了
 
 
-#add_library( # Sets the name of the library.
-#        object-lib
-#
-#        # Sets the library as a shared library.
-#        SHARED
-#
-#        # Provides a relative path to your source file(s).
-#        # ${CPP_SOURCES} #这里为了演示多个动态库，故暂时不用
-#        object-lib.cpp
-#        common/ALog.cpp
-#        　
-#        )
 
 add_library( # Sets the name of the library.
             dynamic-lib
@@ -129,13 +117,6 @@ target_link_libraries(  # Specifies the target library.
                         # 如果有依赖关系，被依赖的要放置在后面
                         ${log-lib} )
 
-#target_link_libraries(  # Specifies the target library.
-#        object-lib
-#
-#        # Links the target library to the log library
-#        # included in the NDK.
-#        # 如果有依赖关系，被依赖的要放置在后面
-#        ${log-lib} )
 
 
 #升级到gradle4之后会报错误：More than one file was found with OS independent path 'lib/armeabi/libstreamhandler.so'
