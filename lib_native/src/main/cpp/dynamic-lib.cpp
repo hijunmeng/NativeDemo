@@ -6,20 +6,40 @@
 
 
 //此函数与java层方法对应，函数名可任意取
-jint dynamicRegisterM(JNIEnv *env,
+jint junmeng_addone(JNIEnv *env,
                       jclass clazz, //由于是静态方法，因此这里为jclass,如果是普通方法，则这里为jobject
                       int i) {
-    LOGI("dynamicRegister:i=%d", i);
+    LOGI("junmeng_addone:i=%d",i);
     i++;
     return i;
 
 }
+jstring junmeng_stringFromJNI(JNIEnv *env,
+                      jclass clazz, //由于是静态方法，因此这里为jclass,如果是普通方法，则这里为jobject
+                      jstring _s) {
+
+    const char * s=env->GetStringUTFChars(_s,NULL);
+
+    LOGI("junmeng_stringFromJNI:s=%s",s);
+
+    std::string hello = "Hello from C++";
+
+    env->ReleaseStringUTFChars(_s,s);
+    return env->NewStringUTF(hello.c_str());
+
+}
+
+
 
 //方法签名等信息，如有多个方法就写多个
 static JNINativeMethod gMethods[]{
-        {"dynamicRegister",//java层的方法名
+        {"addone",//java层的方法名
                 "(I)I", //签名
-                (void *) dynamicRegisterM //native层的实现函数
+                (void *) junmeng_addone //native层的实现函数
+        },
+        {"stringFromJNI",//java层的方法名
+                "(Ljava/lang/String;)Ljava/lang/String;", //签名
+                (void *) junmeng_stringFromJNI //native层的实现函数
         }
 };
 

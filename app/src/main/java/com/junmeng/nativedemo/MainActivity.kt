@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import com.junmeng.libnative.JniDynamic
 import com.junmeng.libnative.JniNative
+import com.junmeng.libnative.JniObject
 import com.junmeng.libnative.JniStaticNative
+import com.junmeng.libnative.bean.XY
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -29,10 +31,16 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG,"耗时s="+(e2-s2))
 
         var s=System.currentTimeMillis()
-        var i=JniDynamic.dynamicRegister(2)
+        var i=JniDynamic.addone(2)
         var e=System.currentTimeMillis()
         Log.i(TAG,"耗时d="+(e-s))
-        sample_text.text =""
+        sample_text.text =JniDynamic.stringFromJNI("hello")
+
+        var xy=JniObject.change(XY())
+        Log.i(TAG,"xy={"+xy.x+","+xy.y+"}")
+
+
+
     }
 
 
