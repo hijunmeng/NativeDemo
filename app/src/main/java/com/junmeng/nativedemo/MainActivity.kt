@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         var s2=System.currentTimeMillis()
         JniStaticNative.stringFromJNI("static")
         var e2=System.currentTimeMillis()
-        Log.i(TAG,"静态注册方式第二次调用耗时（ms）："+(e2-s2))
+        Log.i(TAG,"静态注册方式第二次调用耗时（ms）："+(e2-s2))//第二次调用会比首次快很多
 
 
         //传递对象演示
@@ -41,13 +41,14 @@ class MainActivity : AppCompatActivity() {
         var s3=System.currentTimeMillis()
         var i=JniDynamic.addone(2)
         var e3=System.currentTimeMillis()
-        Log.i(TAG,"动态注册方式首次调用耗时（ms）："+(e3-s3))
+        Log.i(TAG,"动态注册方式首次调用耗时（ms）："+(e3-s3))//比静态注册会快一些
         var s4=System.currentTimeMillis()
         JniDynamic.stringFromJNI("dynamic")
         var e4=System.currentTimeMillis()
         Log.i(TAG,"动态注册方式首次调用耗时（ms）："+(e4-s4))
 
 
+        //字节操作演示
         //由于长度过小，Native层产生副本
         var ba=ByteArray(5)
         JniStaticNative.byteReleaseWithCommit(ba)

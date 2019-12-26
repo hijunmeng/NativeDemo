@@ -3,6 +3,22 @@
 #include <cstring>
 
 
+//java类型对应的签名如下
+//boolean       Z
+//byte          B
+//char          C
+//short         S
+//int           I
+//long          J
+//float         F
+//double        D
+//String        Ljava/lang/String;
+//Class         Ljava/lang/Class;
+//Throwable     Ljava/lang/Throwable;
+//int[]         [I
+//Object[]      [Ljava/lang/Object;
+//double[][]    [[D
+
 //note:use "/" not "." to splite
 char beanPackage[] = "com/junmeng/libnative/bean";
 
@@ -46,7 +62,7 @@ jobject xy2jobject(JNIEnv *env, xy_value xyValue) {
         LOGE("%s failed.", cls_path);
         return NULL;
     }
-    jmethodID construct = env->GetMethodID(clas, "<init>", "()V");
+    jmethodID construct = env->GetMethodID(clas, "<init>", "()V");//<init>表示构造函数，()V表示无参数无返回值
     jobject obj = env->NewObject(clas, construct);
     jfieldID xFieldID = env->GetFieldID(clas, "x", "I");
     jfieldID yFieldID = env->GetFieldID(clas, "y", "I");
