@@ -17,27 +17,44 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Example of a call to a native method
-//        sample_text.text = JniNative.getInstance()?.stringFromJNI()
-        //sample_text.text = JniStaticNative.stringFromJNI()
 
+
+        //静态注册演示
+        //普通方式
+        sample_text.text =JniNative.getInstance()?.stringFromJNI()
+        //静态方式
         var s1=System.currentTimeMillis()
-        JniStaticNative.stringFromJNI()
+        JniStaticNative.stringFromJNI("static")
         var e1=System.currentTimeMillis()
-        Log.i(TAG,"耗时s="+(e1-s1))
+        Log.i(TAG,"静态注册方式第一次调用耗时（ms）："+(e1-s1))
         var s2=System.currentTimeMillis()
-        JniStaticNative.stringFromJNI()
+        JniStaticNative.stringFromJNI("static")
         var e2=System.currentTimeMillis()
-        Log.i(TAG,"耗时s="+(e2-s2))
+        Log.i(TAG,"静态注册方式第二次调用耗时（ms）："+(e2-s2))
 
-        var s=System.currentTimeMillis()
-        var i=JniDynamic.addone(2)
-        var e=System.currentTimeMillis()
-        Log.i(TAG,"耗时d="+(e-s))
-        sample_text.text =JniDynamic.stringFromJNI("hello")
 
+        //传递对象演示
         var xy=JniObject.change(XY())
-        Log.i(TAG,"xy={"+xy.x+","+xy.y+"}")
+        Log.i(TAG,"传递对象xy={"+xy.x+","+xy.y+"}")
+
+        //动态注册演示
+        var s3=System.currentTimeMillis()
+        var i=JniDynamic.addone(2)
+        var e3=System.currentTimeMillis()
+        Log.i(TAG,"动态注册方式首次调用耗时（ms）："+(e3-s3))
+        var s4=System.currentTimeMillis()
+        JniDynamic.stringFromJNI("dynamic")
+        var e4=System.currentTimeMillis()
+        Log.i(TAG,"动态注册方式首次调用耗时（ms）："+(e4-s4))
+
+
+
+
+
+
+
+
+
 
 
 

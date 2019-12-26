@@ -1,6 +1,8 @@
 #include <jni.h>
 #include <string>
 #include <ALog.h>
+#include <unistd.h>
+#include <sys/syscall.h>
 
 #define JAVA_CLASS "com/junmeng/libnative/JniDynamic" //java层对应的类的全路径
 
@@ -9,7 +11,11 @@
 jint junmeng_addone(JNIEnv *env,
                       jclass clazz, //由于是静态方法，因此这里为jclass,如果是普通方法，则这里为jobject
                       int i) {
+    int tid = (int)syscall(SYS_gettid);
+    int pid = (int)syscall(SYS_getpid);
+    LOGI("junmeng_addone:pid=%d,tid=%d",pid,tid);
     LOGI("junmeng_addone:i=%d",i);
+
     i++;
     return i;
 

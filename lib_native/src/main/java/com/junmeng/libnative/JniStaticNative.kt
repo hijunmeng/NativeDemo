@@ -12,7 +12,7 @@ object JniStaticNative {
     /**
      * 静态注册演示，native会有对应的函数如Java_com_junmeng_libnative_JniStaticNative_stringFromJNI
      */
-    external fun stringFromJNI(): String
+    external fun stringFromJNI(s:String): String
 
 
 

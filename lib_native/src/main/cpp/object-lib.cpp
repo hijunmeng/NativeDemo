@@ -20,6 +20,7 @@ typedef struct{
  * @return 是否成功
  */
 bool toXYValue(JNIEnv *env, jobject xy,xy_value * xyValue) {
+
     jclass xy_cls = env->GetObjectClass(xy);
     if (xy_cls == NULL) {
         LOGE("toXYValue failed.");
