@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         ba=ByteArray(12*1024)
         JniStaticNative.byteReleaseWithNull(ba)
         Log.i(TAG,"byteRealeseWithNull：[0]="+ba[0])//[0]=2
+        JniStaticNative.byteCopy(byteArrayOf(0x01,0x02))
 
 
 

@@ -30,5 +30,9 @@ object JniStaticNative {
      */
     external fun byteReleaseWithNull(bs: ByteArray)
 
+    /**
+     * 演示在Native层拷贝数据
+     */
+    external fun byteCopy(bs: ByteArray)
 
 }

@@ -88,4 +88,19 @@ Java_com_junmeng_libnative_JniStaticNative_byteReleaseWithAbort(
     return ;
 }
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_junmeng_libnative_JniStaticNative_byteCopy(
+        JNIEnv *env,
+        jclass clazz,//注意静态方法与普通方法的区别就是jobject变成了jclass
+        jbyteArray array
+) {
+    int len=env->GetArrayLength(array);
+    char cp[len];
+    //将数据拷贝进cp数组里，比GetByteArrayElements相比好处就是减少jni调用，减少了一步release的调用
+    env->GetByteArrayRegion(array, 0, len, reinterpret_cast<jbyte *>(cp));//一般当字节大于11KB时则不会产生副本
+    LOGI("Java_com_junmeng_libnative_JniStaticNative_byteCopy:[0]=%d",cp[0]);
+    return ;
+}
+
 
