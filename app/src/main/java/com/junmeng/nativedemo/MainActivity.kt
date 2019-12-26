@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         //传递对象演示
         var xy=JniObject.change(XY())
-        Log.i(TAG,"传递对象xy={"+xy.x+","+xy.y+"}")
+        Log.i(TAG,"传递对象xy={"+xy.x+","+xy.y+"}")//输出{1,1}
 
         //动态注册演示
         var s3=System.currentTimeMillis()
@@ -46,6 +46,28 @@ class MainActivity : AppCompatActivity() {
         JniDynamic.stringFromJNI("dynamic")
         var e4=System.currentTimeMillis()
         Log.i(TAG,"动态注册方式首次调用耗时（ms）："+(e4-s4))
+
+
+        //由于长度过小，Native层产生副本
+        var ba=ByteArray(5)
+        JniStaticNative.byteReleaseWithCommit(ba)
+        Log.i(TAG,"byteReleaseWithCommit：[0]="+ba[0])//[0]=2
+        ba=ByteArray(5)
+        JniStaticNative.byteReleaseWithAbort(ba)
+        Log.i(TAG,"byteReleaseWithAbort：[0]="+ba[0])//[0]=0
+        ba=ByteArray(5)
+        JniStaticNative.byteReleaseWithNull(ba)
+        Log.i(TAG,"byteRealeseWithNull：[0]="+ba[0])//[0]=2
+        //由于长度过长，Native层未产生副本
+        ba=ByteArray(12*1024)
+        JniStaticNative.byteReleaseWithCommit(ba)
+        Log.i(TAG,"byteReleaseWithCommit：[0]="+ba[0])//[0]=2
+        ba=ByteArray(12*1024)
+        JniStaticNative.byteReleaseWithAbort(ba)
+        Log.i(TAG,"byteReleaseWithAbort：[0]="+ba[0])//[0]=2
+        ba=ByteArray(12*1024)
+        JniStaticNative.byteReleaseWithNull(ba)
+        Log.i(TAG,"byteRealeseWithNull：[0]="+ba[0])//[0]=2
 
 
 
