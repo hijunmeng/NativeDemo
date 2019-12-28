@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 ##################################################################
-# 特别注意此文件对格式有一定要求，如果格式出现错误将导致一些奇怪的问题，难以排查
+# 特别注意此文件对格式有一定要求(特别注意半角英文，空格换行等，一旦出错真的难以察觉和排错)，如果格式出现错误将导致一些奇怪的问题，难以排查
 ##################################################################
 
 # 以下演示打印部分预定义变量的值，可在目录app/.cxx/cmake/debug/arm64-v8a/build_output.txt下查看
@@ -59,16 +59,19 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common/)
 # Gradle automatically packages shared libraries with your APK.
 
 add_library( # Sets the name of the library.
-             native-lib
+            native-lib
 
              # Sets the library as a shared library.
-             SHARED
+            SHARED
 
              # Provides a relative path to your source file(s).
              # ${CPP_SOURCES} #这里为了演示多个动态库，故暂时不用
-             native-lib.cpp
-             object-lib.cpp
-             common/ALog.cpp )#注意最后的括号不能换行，否则会导致cpp文件识别不了
+            jni/callback-lib.cpp
+            jni/object-lib.cpp
+            jni/native-lib.cpp
+            common/GJvm.cpp
+            common/ALog.cpp
+        )
 
 
 
@@ -79,8 +82,10 @@ add_library( # Sets the name of the library.
             SHARED
 
             # Provides a relative path to your source file(s).
-            dynamic-lib.cpp
-            common/ALog.cpp)
+            jni/dynamic-lib.cpp
+            common/GJvm.cpp
+            common/ALog.cpp
+        )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

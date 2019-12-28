@@ -1,7 +1,27 @@
 #include <jni.h>
 #include <string>
 #include <ALog.h>
+#include <GJvm.h>
 
+JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
+    LOGI("JNI_OnLoad");
+    //当Android的VM(Virtual Machine)执行到C组件(即so)里的System.loadLibrary()函数时便会执行JNI_OnLoad函数
+
+    //因此可以在此执行一些初始化的工作，比如函数动态注册等
+
+
+    //先保存jvm
+    setJvm(vm);
+
+
+    LOGI("JNI_OnLoad end");
+
+    //返回值告诉vm使用的jni版本，如果没有JNI_OnLoad函数，那么默认是最旧的1.1版本
+    //由于新版的JNI做了许多扩充，如果需要使用JNI的新版功能，
+    //例如JNI 1.4的java.nio.ByteBuffer,就必须藉由JNI_OnLoad()函数来告知VM
+    return JNI_VERSION_1_6;
+
+}
 
 extern "C" //extern "C"表示使用c编译，这样才能在c++中引用c
 JNIEXPORT jstring JNICALL
@@ -102,5 +122,6 @@ Java_com_junmeng_libnative_JniStaticNative_byteCopy(
     LOGI("Java_com_junmeng_libnative_JniStaticNative_byteCopy:[0]=%d",cp[0]);
     return ;
 }
+
 
 

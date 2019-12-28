@@ -3,6 +3,7 @@
 #include <ALog.h>
 #include <unistd.h>
 #include <sys/syscall.h>
+#include <GJvm.h>
 
 #define JAVA_CLASS "com/junmeng/libnative/JniDynamic" //java层对应的类的全路径
 
@@ -76,11 +77,17 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 
     //因此可以在此执行一些初始化的工作，比如函数动态注册等
 
+
+
     JNIEnv *env = NULL; //注册时在JNIEnv中实现的，所以必须首先获取它
     if (vm->GetEnv(reinterpret_cast<void **>(&env), JNI_VERSION_1_6) != JNI_OK) { //从JavaVM获取JNIEnv
         LOGE("获取JNIEnv失败");
         return JNI_ERR;
     }
+
+    //先保存jvm
+    setJvm(vm);
+
     int ret = registerNativeMethods(env, JAVA_CLASS, gMethods,
                                     sizeof(gMethods) / sizeof(JNINativeMethod));
     if (ret != JNI_OK) {
