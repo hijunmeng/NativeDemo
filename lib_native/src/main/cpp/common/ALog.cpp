@@ -4,7 +4,8 @@
 
 #include "ALog.h"
 
-bool m_log_switch=true;
+static bool m_log_switch=true;
+
 void setLogSwitch(bool bSwitch){
     m_log_switch=bSwitch;
 }

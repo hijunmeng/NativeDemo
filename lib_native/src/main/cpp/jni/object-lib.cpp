@@ -63,7 +63,15 @@ jobject xy2jobject(JNIEnv *env, xy_value xyValue) {
         return NULL;
     }
     jmethodID construct = env->GetMethodID(clas, "<init>", "()V");//<init>表示构造函数，()V表示无参数无返回值
+
+    //第一种方式
     jobject obj = env->NewObject(clas, construct);
+
+    //第二种方式
+    //jobject obj = env->AllocObject(clas);
+    //env->CallNonvirtualVoidMethod(obj,clas,construct);
+
+
     jfieldID xFieldID = env->GetFieldID(clas, "x", "I");
     jfieldID yFieldID = env->GetFieldID(clas, "y", "I");
     env->SetIntField(obj, xFieldID, xyValue.x);

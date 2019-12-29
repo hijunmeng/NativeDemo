@@ -3,6 +3,7 @@ package com.junmeng.nativedemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.junmeng.libnative.*
 import com.junmeng.libnative.bean.XY
 import kotlinx.android.synthetic.main.activity_main.*
@@ -67,6 +68,10 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG, "byteRealeseWithNull：[0]=" + ba[0])//[0]=2
         JniStaticNative.byteCopy(byteArrayOf(0x01, 0x02))
 
+
+
+
+        //回调演示
         JniCallback.callback(object : ICallback {
             override fun cb(s: String) {
                 Log.i(TAG, "current_thread_id="+Thread.currentThread().id+",callback＝" + s)
@@ -82,6 +87,29 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+
+        //演示三种引用类型
+        var sr:String =JniReference.localReference()
+        Log.i(TAG,"localReference="+sr)
+
+        JniReference.globalReference()
+        JniReference.globalReference()
+
+        JniReference.weakReference()
+        JniReference.weakReference()
+
+        var ret=JniReference.errorWithTooManyLocalRef()//此句无法正常执行
+        Log.i(TAG,"errorWithTooManyLocalRef ret="+ret)//你会发现这句ｌｏｇ无法被执行到
+
+
+
+
+
+    }
+
+    fun onClickTest(view: View) {
+        JniReference.globalReference()
+        JniReference.weakReference()
     }
 
 

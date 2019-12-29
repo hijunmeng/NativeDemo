@@ -7,7 +7,6 @@
 
 static JavaVM* gJvm=nullptr;
 
-
 void setJvm(JavaVM * jvm){
     gJvm=jvm;
 }

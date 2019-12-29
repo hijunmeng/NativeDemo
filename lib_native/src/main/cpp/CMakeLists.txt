@@ -69,6 +69,7 @@ add_library( # Sets the name of the library.
             jni/callback-lib.cpp
             jni/object-lib.cpp
             jni/native-lib.cpp
+            jni/reference-lib.cpp
             common/GJvm.cpp
             common/ALog.cpp
         )
