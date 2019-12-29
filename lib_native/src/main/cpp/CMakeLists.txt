@@ -70,6 +70,7 @@ add_library( # Sets the name of the library.
             jni/object-lib.cpp
             jni/native-lib.cpp
             jni/reference-lib.cpp
+            jni/exception-lib.cpp
             common/GJvm.cpp
             common/ALog.cpp
         )

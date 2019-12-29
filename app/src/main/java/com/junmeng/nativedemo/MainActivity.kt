@@ -7,6 +7,7 @@ import android.view.View
 import com.junmeng.libnative.*
 import com.junmeng.libnative.bean.XY
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.IllegalArgumentException
 
 class MainActivity : AppCompatActivity() {
     val TAG = MainActivity::class.java.toString()
@@ -69,28 +70,25 @@ class MainActivity : AppCompatActivity() {
         JniStaticNative.byteCopy(byteArrayOf(0x01, 0x02))
 
 
-
-
         //回调演示
         JniCallback.callback(object : ICallback {
             override fun cb(s: String) {
-                Log.i(TAG, "current_thread_id="+Thread.currentThread().id+",callback＝" + s)
+                Log.i(TAG, "current_thread_id=" + Thread.currentThread().id + ",callback＝" + s)
 
             }
         })
 
         JniCallback.threadCallback(object : ICallback {
             override fun cb(s: String) {
-                Log.i(TAG, "current_thread_id="+Thread.currentThread().id+",callback＝" + s)
+                Log.i(TAG, "current_thread_id=" + Thread.currentThread().id + ",callback＝" + s)
 
             }
         })
 
 
-
         //演示三种引用类型
-        var sr:String =JniReference.localReference()
-        Log.i(TAG,"localReference="+sr)
+        var sr: String = JniReference.localReference()
+        Log.i(TAG, "localReference=" + sr)
 
         JniReference.globalReference()
         JniReference.globalReference()
@@ -98,11 +96,17 @@ class MainActivity : AppCompatActivity() {
         JniReference.weakReference()
         JniReference.weakReference()
 
-        var ret=JniReference.errorWithTooManyLocalRef()//此句无法正常执行
-        Log.i(TAG,"errorWithTooManyLocalRef ret="+ret)//你会发现这句ｌｏｇ无法被执行到
+        // var ret=JniReference.errorWithTooManyLocalRef()//此句无法正常执行
+        // Log.i(TAG,"errorWithTooManyLocalRef ret="+ret)//你会发现这句ｌｏｇ无法被执行到
 
 
+        JniException.invokeJavaException()
 
+        try {
+            JniException.throwException()
+        } catch (e: IllegalArgumentException) {
+            Log.e(TAG, "throwException:" + e.message)
+        }
 
 
     }
