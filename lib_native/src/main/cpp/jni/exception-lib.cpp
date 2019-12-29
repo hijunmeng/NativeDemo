@@ -14,6 +14,7 @@ Java_com_junmeng_libnative_JniException_invokeJavaException(
     jobject job = env->NewObject(jcls, mid2);
     env->CallIntMethod(job, op);
 
+    //一般是用在回调java层时，即使java层产生了异常，也不会直接奔溃掉
     jthrowable exc = env->ExceptionOccurred();//检测ｊａｖａ层是否有异常产生
     if (exc) {
         env->ExceptionDescribe();//输出异常信息
