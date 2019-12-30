@@ -29,6 +29,7 @@ object JniReference {
     /**
      *
      * 本地引用个数不宜过多，一般不能超过５１２个，这也说明了无用的本地引用要及时释放
+     * 本方法实测会有一些异常情况，暂时不知原因
      */
     external fun errorWithTooManyLocalRef():Int
 }

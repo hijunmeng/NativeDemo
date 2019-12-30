@@ -100,6 +100,8 @@ class MainActivity : AppCompatActivity() {
         // Log.i(TAG,"errorWithTooManyLocalRef ret="+ret)//你会发现这句ｌｏｇ无法被执行到
 
 
+
+        //演示异常
         JniException.invokeJavaException()
 
         try {
@@ -109,11 +111,20 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        //演示线程
+        JniPthread.createThread()
+        JniPthread.joinThread()
+        JniPthread.notifyThread()
+        JniPthread.waitThread()
+
+
     }
 
     fun onClickTest(view: View) {
         JniReference.globalReference()
         JniReference.weakReference()
+
+        JniPthread.notifyThread()
     }
 
 

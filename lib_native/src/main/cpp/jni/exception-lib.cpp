@@ -8,10 +8,10 @@ Java_com_junmeng_libnative_JniException_invokeJavaException(
         jclass clazz//注意静态方法与普通方法的区别就是jobject变成了jclass
 ) {
 
-    jclass jcls = env->FindClass("com/junmeng/libnative/JniException");
-    jmethodID op = env->GetMethodID(jcls, "exception", "()I");
-    jmethodID mid2 = env->GetMethodID(jcls, "<init>", "()V");
-    jobject job = env->NewObject(jcls, mid2);
+    //jclass jcls = env->FindClass("com/junmeng/libnative/JniException");//由于是静态方法，已经有了jclass，因此就不需要再FindClass了
+    jmethodID op = env->GetMethodID(clazz, "exception", "()I");
+    jmethodID mid2 = env->GetMethodID(clazz, "<init>", "()V");
+    jobject job = env->NewObject(clazz, mid2);
     env->CallIntMethod(job, op);
 
     //一般是用在回调java层时，即使java层产生了异常，也不会直接奔溃掉

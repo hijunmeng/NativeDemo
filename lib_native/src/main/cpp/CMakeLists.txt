@@ -71,6 +71,7 @@ add_library( # Sets the name of the library.
             jni/native-lib.cpp
             jni/reference-lib.cpp
             jni/exception-lib.cpp
+            jni/pthread-lib.cpp
             common/GJvm.cpp
             common/ALog.cpp
         )
