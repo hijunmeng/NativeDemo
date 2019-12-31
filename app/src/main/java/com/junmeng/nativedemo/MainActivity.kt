@@ -114,8 +114,9 @@ class MainActivity : AppCompatActivity() {
         //演示线程
         JniPthread.createThread()
         JniPthread.joinThread()
-        JniPthread.notifyThread()
         JniPthread.waitThread()
+
+        JniPthread.productConsumerThread()
 
 
     }

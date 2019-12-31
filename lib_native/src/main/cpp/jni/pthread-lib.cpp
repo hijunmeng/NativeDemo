@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <cstring>
 #include <unistd.h>
+#include <queue>
 
 
 typedef struct ThreadArgs {
@@ -114,7 +115,7 @@ static void *waitThread(void *) {
 
     while (flag == 0) {
         LOGI("waitThread waiting");
-        pthread_cond_wait(&cond, &mutex);//这一步会等待信号，同时将锁释放
+        pthread_cond_wait(&cond, &mutex);//这一步会等待信号，同时将锁释放,在返回时会重新加锁
     }
 
 
@@ -133,7 +134,7 @@ static void *notifyThread(void *) {
     pthread_mutex_unlock(&mutex);
     LOGI("notifyThread unlock");
 
-    pthread_cond_signal(&cond);
+    pthread_cond_signal(&cond);//唤醒等待的线程
     LOGI("notifyThread signal");
     return nullptr;
 }
@@ -159,4 +160,62 @@ Java_com_junmeng_libnative_JniPthread_notifyThread(
 ) {
 
     pthread_create(&notifyHandle, nullptr, notifyThread, nullptr);
+}
+
+std::queue<int> data;//存放物资
+pthread_mutex_t mutex2;
+pthread_cond_t crod2;
+
+static void *productThread(void *) {
+    while (data.size() < 10) {
+        pthread_mutex_lock(&mutex2);
+        LOGI("生产物资");
+        data.push(1);
+        if (data.size() > 0) {
+            LOGI("等待消费");
+            pthread_cond_signal(&crod2);
+        }
+
+        pthread_mutex_unlock(&mutex2);
+        sleep(3);
+    }
+
+    pthread_exit(0);
+}
+
+static void *consumerThread(void *) {
+
+
+    while (true) {
+        pthread_mutex_lock(&mutex2);
+        if (data.size() > 0) {
+            LOGD("消费物资");
+            data.pop();
+        } else {
+            LOGD("等待生产");
+            pthread_cond_wait(&crod2, &mutex2);
+        }
+        pthread_mutex_unlock(&mutex2);
+
+        sleep(1);
+    }
+
+    pthread_exit(0);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_junmeng_libnative_JniPthread_productConsumerThread(
+        JNIEnv *env,
+        jclass clazz//注意静态方法与普通方法的区别就是jobject变成了jclass
+) {
+
+    pthread_mutex_init(&mutex2, nullptr);
+    pthread_cond_init(&crod2, nullptr);
+
+
+    pthread_t productHandle;
+    pthread_t consumerHandle;
+    pthread_create(&productHandle, nullptr, productThread, nullptr);
+    pthread_create(&consumerHandle, nullptr, consumerThread, nullptr);
 }

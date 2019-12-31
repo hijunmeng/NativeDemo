@@ -35,6 +35,14 @@ class JniPthread {
          */
         @JvmStatic
         external fun notifyThread()
+
+
+
+        /**
+         * 生产消费模型
+         */
+        @JvmStatic
+        external fun productConsumerThread()
     }
 
 
