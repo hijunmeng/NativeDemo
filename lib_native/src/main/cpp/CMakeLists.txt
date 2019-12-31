@@ -72,6 +72,7 @@ add_library( # Sets the name of the library.
             jni/reference-lib.cpp
             jni/exception-lib.cpp
             jni/pthread-lib.cpp
+            jni/bitmap-lib.cpp
             common/GJvm.cpp
             common/ALog.cpp
         )
@@ -115,6 +116,7 @@ target_link_libraries( # Specifies the target library.
                        # Links the target library to the log library
                        # included in the NDK.
                        # 如果有依赖关系，被依赖的要放置在后面
+                        jnigraphics #使用Bitmap需要引入的动态库
                        ${log-lib} )
 
 target_link_libraries(  # Specifies the target library.

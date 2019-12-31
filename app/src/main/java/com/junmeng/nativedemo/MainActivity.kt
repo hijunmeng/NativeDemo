@@ -1,13 +1,16 @@
 package com.junmeng.nativedemo
 
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.junmeng.libnative.*
 import com.junmeng.libnative.bean.XY
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.IllegalArgumentException
+
 
 class MainActivity : AppCompatActivity() {
     val TAG = MainActivity::class.java.toString()
@@ -100,7 +103,6 @@ class MainActivity : AppCompatActivity() {
         // Log.i(TAG,"errorWithTooManyLocalRef ret="+ret)//你会发现这句ｌｏｇ无法被执行到
 
 
-
         //演示异常
         JniException.invokeJavaException()
 
@@ -115,7 +117,6 @@ class MainActivity : AppCompatActivity() {
         JniPthread.createThread()
         JniPthread.joinThread()
         JniPthread.waitThread()
-
         JniPthread.productConsumerThread()
 
 
@@ -126,6 +127,17 @@ class MainActivity : AppCompatActivity() {
         JniReference.weakReference()
 
         JniPthread.notifyThread()
+
+
+        //演示Bitmap
+        var bitmap: Bitmap =
+            BitmapFactory.decodeResource(resources, R.mipmap.ic_cow)
+        Log.i(
+            TAG,
+            "bitmap　w=" + bitmap.width + ",h=" + bitmap.height
+        )//由于设备不同，故原图在不同设备上会有不同程度的缩放，因此宽高也会变化
+        var newBitmap = JniBitmap.mirrorBitmap(bitmap)
+        imageView.setImageBitmap(newBitmap)
     }
 
 
